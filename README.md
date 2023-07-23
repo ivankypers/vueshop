@@ -1,4 +1,4 @@
-# vueshop
+# vue.js_dpo
 
 ## Project setup
 ```

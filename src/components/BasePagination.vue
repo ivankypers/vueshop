@@ -1,19 +1,19 @@
 <template>
   <ul class="catalog__pagination pagination">
     <li class="pagination__item">
-      <a class="pagination__link pagination__link--arrow pagination__link--disabled" aria-label="Предыдущая страница">
+      <a href="#" class="pagination__link pagination__link--arrow pagination__link--disabled" aria-label="Предыдущая страница" @click.prevent="previousPage(page)">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left"></use>
         </svg>
       </a>
     </li>
     <li class="pagination__item" v-for="pageNumber in pages" :key="pageNumber">
-      <a href="#" class="pagination__link " :class="{'pagination__link--current': pageNumber === page}" @click.prevent="paginate(pageNumber)">
+      <a href="#" class="pagination__link" :class="{'pagination__link--current': pageNumber === page}" @click.prevent="paginate(pageNumber)">
         {{ pageNumber }}
       </a>
     </li>
     <li class="pagination__item">
-      <a class="pagination__link pagination__link--arrow" href="#" aria-label="Следующая страница">
+      <a class="pagination__link pagination__link--arrow" href="#" aria-label="Следующая страница" @click.prevent="nextPage(page)">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-right"></use>
         </svg>
@@ -26,7 +26,7 @@
 export default {
   model: {
     prop: 'page',
-    event: 'paginate',
+    event: 'page-click',
   },
   props: ['page', 'count', 'perPage'],
   computed: {
@@ -36,8 +36,17 @@ export default {
   },
   methods: {
     paginate(page) {
-      console.log(this.pages)
-      this.$emit('paginate', page);
+      this.$emit('page-click', page);
+    },
+    previousPage(page) {
+      if (page > 1) {
+        this.$emit('page-click', page - 1);
+      }
+    },
+    nextPage(page) {
+      if (page < this.pages) {
+        this.$emit('page-click', page + 1);
+      }
     }
   },
 }
